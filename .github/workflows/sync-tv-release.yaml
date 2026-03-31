@@ -65,6 +65,7 @@ jobs:
       SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
       KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
       KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+      KEYSTORE_TYPE: JKS
       GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout TV overlay repository
@@ -137,6 +138,7 @@ jobs:
           for apk in dist/unsigned/*.apk; do
             apksigner sign \
               --ks release.keystore \
+              --ks-type "$KEYSTORE_TYPE" \
               --ks-key-alias "$KEY_ALIAS" \
               --ks-pass pass:"$KEY_STORE_PASSWORD" \
               --out "dist/signed/$(basename "$apk")" \
