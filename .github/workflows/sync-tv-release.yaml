@@ -115,6 +115,19 @@ jobs:
           sed -i "s/kvpx7qkqjh/${DANDANAPI_APPID}/g" work/upstream/lib/utils/mortis.dart
           sed -i "s/rABUaBLqdz7aCSi3fe88ZDj2gwga9Vax/${DANDANAPI_KEY}/g" work/upstream/lib/utils/mortis.dart
 
+      - name: Validate signing secrets
+        run: |
+          missing=0
+          for name in SIGNING_KEY_BASE64 KEY_ALIAS KEY_STORE_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required secret: $name" >&2
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
       - name: Get Flutter dependencies
         working-directory: work/upstream
         run: flutter pub get
@@ -129,27 +142,20 @@ jobs:
           cp work/upstream/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk dist/unsigned/Kazumi-TV_${UPSTREAM_TAG}_armeabi-v7a.apk
           cp work/upstream/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk dist/unsigned/Kazumi-TV_${UPSTREAM_TAG}_arm64-v8a.apk
 
-      - name: Decode Android signing key
-        run: |
-          echo "$SIGNING_KEY_BASE64" | base64 -d > release.keystore
-
       - name: Sign APKs
-        run: |
-          for apk in dist/unsigned/*.apk; do
-            apksigner sign \
-              --ks release.keystore \
-              --ks-type "$KEYSTORE_TYPE" \
-              --ks-key-alias "$KEY_ALIAS" \
-              --ks-pass pass:"$KEY_STORE_PASSWORD" \
-              --out "dist/signed/$(basename "$apk")" \
-              "$apk"
-          done
+        id: sign_app
+        uses: filippoLeporati93/android-release-signer@v1
+        with:
+          releaseDirectory: dist/unsigned
+          signingKeyBase64: ${{ secrets.SIGNING_KEY_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
 
-      - name: Verify signed APKs
+      - name: Collect signed APKs
         run: |
-          for apk in dist/signed/*.apk; do
-            apksigner verify "$apk"
-          done
+          cp dist/unsigned/*.apk dist/signed/
 
       - name: Publish GitHub release
         run: |
