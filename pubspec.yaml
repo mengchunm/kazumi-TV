@@ -20,7 +20,7 @@ version: 2.0.6+20006
 
 environment:
   sdk: ">=3.3.4 <4.0.0"
-  flutter: 3.41.5
+  flutter: 3.41.7
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -212,11 +212,11 @@ msix_config:
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
+  # included with the application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
+  # To add assets to the application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
@@ -233,7 +233,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom fonts to this application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
