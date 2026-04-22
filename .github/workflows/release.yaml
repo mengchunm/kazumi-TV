@@ -40,7 +40,7 @@
             uses: subosito/flutter-action@v2.16.0
             with:
               channel: stable
-              flutter-version-file: pubspec.yaml
+              flutter-version: 3.41.7
           - name: Get Flutter dependencies
             run: flutter pub get
             shell: bash
@@ -81,7 +81,7 @@
             uses: subosito/flutter-action@v2.16.0
             with:
               channel: stable
-              flutter-version-file: pubspec.yaml
+              flutter-version: 3.41.7
           - name: Set up Java
             uses: actions/setup-java@v4
             with:
@@ -197,7 +197,7 @@
             uses: subosito/flutter-action@v2.16.0
             with:
               channel: stable
-              flutter-version-file: pubspec.yaml
+              flutter-version: 3.41.7
           - name: Get Flutter dependencies
             run: flutter pub get
             shell: bash
@@ -280,7 +280,7 @@
             uses: subosito/flutter-action@v2.16.0
             with:
               channel: stable
-              flutter-version-file: pubspec.yaml
+              flutter-version: 3.41.7
           - run: flutter pub get
           - name: Inject DanDan API Credentials
             run: |
@@ -317,7 +317,7 @@
             uses: subosito/flutter-action@v2.16.0
             with:
               channel: stable
-              flutter-version-file: pubspec.yaml
+              flutter-version: 3.41.7
           - run: flutter pub get
           - name: Inject DanDan API Credentials
             run: |
